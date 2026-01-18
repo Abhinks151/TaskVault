@@ -9,5 +9,7 @@ export function authRoute(authController: IUserController) {
     authController.handleRegister.bind(authController),
   );
 
+  authRouter.post("/login", authController.handleLogin.bind(authController));
+
   return authRouter;
 }

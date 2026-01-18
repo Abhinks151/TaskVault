@@ -5,6 +5,8 @@ import { RegisterUserUseCase } from "./application/usecases/auth/RegisterUserUse
 import { BcryptPasswordHasher } from "./infrastructure/services/bcryptHasher.js";
 import { UserRepository } from "./infrastructure/repository/UserRepository.js";
 import { connect } from "./infrastructure/database/connect.js";
+import { LoginUserUsecase } from "./application/usecases/auth/LoginUserUsecase.js";
+import { TockenService } from "./infrastructure/services/TokenService.js";
 
 connect();
 
@@ -18,7 +20,17 @@ const registerUserUseCase = new RegisterUserUseCase(
   userRepository,
   passwordHasher,
 );
-const authController = new AuthController(registerUserUseCase);
+
+const tokenService = new TockenService();
+const loginUserUsecase = new LoginUserUsecase(
+  userRepository,
+  passwordHasher,
+  tokenService,
+);
+const authController = new AuthController(
+  registerUserUseCase,
+  loginUserUsecase,
+);
 
 app.use("/", authRoute(authController));
 
