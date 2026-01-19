@@ -12,6 +12,7 @@ import { authMiddleware } from "./presentation/middleware/authMiddleware.js";
 import { userRoute } from "./presentation/routes/userRoutes.js";
 import { UserController } from "./presentation/controllers/UserController.js";
 import { UpdateUserDetailsUsecase } from "./application/usecases/user/UpdateUserDetailsUsecase.js";
+import { authorizationMiddleware } from "./presentation/middleware/authorizationMiddleware.js";
 
 connect();
 dotenv.config();
@@ -45,5 +46,14 @@ const userController = new UserController(upadteUserDetailsUsecase);
 app.use("/", authRoute(authController));
 
 app.use("/users", authMiddleware(tokenService), userRoute(userController));
+
+app.get(
+  "/admin",
+  authMiddleware(tokenService),
+  authorizationMiddleware,
+  (req, res) => {
+    res.send("Admin page");
+  },
+);
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
