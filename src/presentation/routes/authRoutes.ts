@@ -1,7 +1,7 @@
 import express from "express";
-import type { IUserController } from "../controllerInterface/IUserController.js";
+import type { IAuthController } from "../controllerInterface/IAuthController.js";
 
-export function authRoute(authController: IUserController) {
+export function authRoute(authController: IAuthController) {
   const authRouter = express.Router();
 
   authRouter.post(

@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
-import type { ITokenService } from "../../application/usecases/auth/ITokenService.js";
+import type { ITokenService } from "../../application/interfaces/use-cases/ITokenService.js";
 
 // closure
 export function authMiddleware(tokenService: ITokenService) {
@@ -24,6 +24,9 @@ export function authMiddleware(tokenService: ITokenService) {
         id: user.userId,
         role: user.role,
       };
+
+      console.log(req.user);
+
 
       next();
     } catch {

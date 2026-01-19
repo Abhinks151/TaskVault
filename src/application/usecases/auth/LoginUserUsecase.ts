@@ -1,7 +1,7 @@
-import type { IUserRepository } from "../../repositories/IUserRepository.js";
-import type { IPasswordService } from "../../services/IPasswordService.js";
-import type { ILoginUserUsecase } from "./IloginUserusecase.js";
-import type { ITokenService } from "./ITokenService.js";
+import type { IUserRepository } from "../../interfaces/repositories/IUserRepository.js";
+import type { IPasswordService } from "../../interfaces/services/IPasswordService.js";
+import type { ILoginUserUsecase } from "../../interfaces/use-cases/IloginUserusecase.js";
+import type { ITokenService } from "../../interfaces/use-cases/ITokenService.js";
 
 export class LoginUserUsecase implements ILoginUserUsecase {
   constructor(
@@ -29,7 +29,7 @@ export class LoginUserUsecase implements ILoginUserUsecase {
     }
 
     return this.tokenService.generateToken({
-      userId: user?._id,
+      userId: user?._id!,
       role: user.role,
     });
   }

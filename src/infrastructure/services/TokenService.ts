@@ -1,4 +1,4 @@
-import type { ITokenService } from "../../application/usecases/auth/ITokenService.js";
+import type { ITokenService } from "../../application/interfaces/use-cases/ITokenService.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 

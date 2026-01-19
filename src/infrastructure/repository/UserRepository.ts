@@ -1,4 +1,4 @@
-import type { IUserRepository } from "../../application/repositories/IUserRepository.js";
+import type { IUserRepository } from "../../application/interfaces/repositories/IUserRepository.js";
 import type { User } from "../../domain/entities/User.js";
 import { Users } from "../database/userModel.js";
 
@@ -18,5 +18,13 @@ export class UserRepository implements IUserRepository {
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     });
+  }
+
+  async updateUserDetails(
+    userId: string,
+    name: string,
+    email: string,
+  ): Promise<void | null> {
+    return await Users.findOneAndUpdate({ _id: userId }, { name, email });
   }
 }

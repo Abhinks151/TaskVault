@@ -1,9 +1,9 @@
 import type { Request, Response } from "express";
-import type { IRegisterUserUsecase } from "../../application/usecases/auth/IRegisterUserUsecase.js";
-import type { IUserController } from "../controllerInterface/IUserController.js";
-import type { ILoginUserUsecase } from "../../application/usecases/auth/IloginUserusecase.js";
+import type { IRegisterUserUsecase } from "../../application/interfaces/use-cases/IRegisterUserUsecase.js";
+import type { IAuthController } from "../controllerInterface/IAuthController.js";
+import type { ILoginUserUsecase } from "../../application/interfaces/use-cases/IloginUserusecase.js";
 
-export class AuthController implements IUserController {
+export class AuthController implements IAuthController {
   constructor(
     private registerUserUsecase: IRegisterUserUsecase,
     private loginUserUsecase: ILoginUserUsecase,

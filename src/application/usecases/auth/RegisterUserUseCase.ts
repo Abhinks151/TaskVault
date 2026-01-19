@@ -1,7 +1,7 @@
-import type { IUserRepository } from "../../repositories/IUserRepository.js";
-import type { IPasswordService } from "../../services/IPasswordService.js";
-import type { IRegisterUserUsecase } from "./IRegisterUserUsecase.js";
+import type { IPasswordService } from "../../interfaces/services/IPasswordService.js";
+import type { IRegisterUserUsecase } from "../../interfaces/use-cases/IRegisterUserUsecase.js";
 import type { User } from "../../../domain/entities/User.js";
+import type { IUserRepository } from "../../interfaces/repositories/IUserRepository.js";
 
 export class RegisterUserUseCase implements IRegisterUserUsecase {
   constructor(

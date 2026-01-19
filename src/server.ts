@@ -9,6 +9,9 @@ import { connect } from "./infrastructure/database/connect.js";
 import { LoginUserUsecase } from "./application/usecases/auth/LoginUserUsecase.js";
 import { TockenService } from "./infrastructure/services/TokenService.js";
 import { authMiddleware } from "./presentation/middleware/authMiddleware.js";
+import { userRoute } from "./presentation/routes/userRoutes.js";
+import { UserController } from "./presentation/controllers/UserController.js";
+import { UpdateUserDetailsUsecase } from "./application/usecases/user/UpdateUserDetailsUsecase.js";
 
 connect();
 dotenv.config();
@@ -36,10 +39,11 @@ const authController = new AuthController(
   loginUserUsecase,
 );
 
+const upadteUserDetailsUsecase = new UpdateUserDetailsUsecase(userRepository);
+const userController = new UserController(upadteUserDetailsUsecase);
+
 app.use("/", authRoute(authController));
 
-app.get("/users", authMiddleware(tokenService), (req, res) => {
-  res.status(200).json({ message: "Protected route accessed successfully" });
-});
+app.use("/users", authMiddleware(tokenService), userRoute(userController));
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
