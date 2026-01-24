@@ -13,8 +13,11 @@ import { userRoute } from "./presentation/routes/userRoutes.js";
 import { UserController } from "./presentation/controllers/UserController.js";
 import { UpdateUserDetailsUsecase } from "./application/usecases/user/UpdateUserDetailsUsecase.js";
 import { authorizationMiddleware } from "./presentation/middleware/authorizationMiddleware.js";
+import { redisConnection } from "./infrastructure/queue/redisConnection.js";
 
 connect();
+// redisConnection.on("connect", () => console.log("Connected to Redis"));
+
 dotenv.config();
 const PORT = process.env.PORT || 3000;
 
