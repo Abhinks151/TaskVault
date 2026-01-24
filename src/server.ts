@@ -13,7 +13,8 @@ import { userRoute } from "./presentation/routes/userRoutes.js";
 import { UserController } from "./presentation/controllers/UserController.js";
 import { UpdateUserDetailsUsecase } from "./application/usecases/user/UpdateUserDetailsUsecase.js";
 import { authorizationMiddleware } from "./presentation/middleware/authorizationMiddleware.js";
-import { redisConnection } from "./infrastructure/queue/redisConnection.js";
+// import { redisConnection } from "./infrastructure/queue/redisConnection.js";
+import { enqueueUserCreated } from "./infrastructure/queue/userSyncQueue.js";
 
 connect();
 // redisConnection.on("connect", () => console.log("Connected to Redis"));
@@ -30,6 +31,7 @@ const userRepository = new UserRepository();
 const registerUserUseCase = new RegisterUserUseCase(
   userRepository,
   passwordHasher,
+  enqueueUserCreated
 );
 
 const tokenService = new TockenService();
