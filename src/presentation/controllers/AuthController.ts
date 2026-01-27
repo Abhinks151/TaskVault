@@ -7,7 +7,10 @@ export class AuthController implements IAuthController {
   constructor(
     private registerUserUsecase: IRegisterUserUsecase,
     private loginUserUsecase: ILoginUserUsecase,
-  ) {}
+  ) {
+    this.handleRegister = this.handleRegister.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+  }
 
   async handleRegister(req: Request, res: Response): Promise<void> {
     try {

@@ -14,7 +14,11 @@ import { UserController } from "./presentation/controllers/UserController.js";
 import { UpdateUserDetailsUsecase } from "./application/usecases/user/UpdateUserDetailsUsecase.js";
 import { authorizationMiddleware } from "./presentation/middleware/authorizationMiddleware.js";
 // import { redisConnection } from "./infrastructure/queue/redisConnection.js";
-import { enqueueUserCreated } from "./infrastructure/queue/userSyncQueue.js";
+import {
+  enqueueUserCreated,
+  enqueUserUpdated,
+} from "./infrastructure/queue/userSyncQueue.js";
+import { worker } from "./infrastructure/queue/worker.js";
 
 connect();
 // redisConnection.on("connect", () => console.log("Connected to Redis"));
@@ -31,7 +35,7 @@ const userRepository = new UserRepository();
 const registerUserUseCase = new RegisterUserUseCase(
   userRepository,
   passwordHasher,
-  enqueueUserCreated
+  enqueueUserCreated,
 );
 
 const tokenService = new TockenService();
@@ -45,7 +49,10 @@ const authController = new AuthController(
   loginUserUsecase,
 );
 
-const upadteUserDetailsUsecase = new UpdateUserDetailsUsecase(userRepository);
+const upadteUserDetailsUsecase = new UpdateUserDetailsUsecase(
+  userRepository,
+  enqueUserUpdated,
+);
 const userController = new UserController(upadteUserDetailsUsecase);
 
 app.use("/", authRoute(authController));

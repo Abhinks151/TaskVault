@@ -5,7 +5,6 @@ export interface User {
   password: string;
   role: string;
   isActive: boolean;
-  isSynced: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

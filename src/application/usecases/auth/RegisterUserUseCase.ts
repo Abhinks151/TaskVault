@@ -9,7 +9,9 @@ export class RegisterUserUseCase implements IRegisterUserUsecase {
     private userRepository: IUserRepository,
     private passwordHasher: IPasswordService,
     private enqueueUserCreated: (payload: UserCreatedPayload) => Promise<void>,
-  ) {}
+  ) {
+    console.log("enqueueUserCreated in UC:", enqueueUserCreated);
+  }
 
   async execute(name: string, email: string, password: string): Promise<void> {
     if (!email || !password) {
@@ -29,16 +31,15 @@ export class RegisterUserUseCase implements IRegisterUserUsecase {
       password: hashedPassword,
       role: "USER",
       isActive: true,
-      isSynced: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
 
-    await this.userRepository.create(user);
+    const newUser = await this.userRepository.create(user);
 
     //create new job(queue)
     await this.enqueueUserCreated({
-      id: user._id!,
+      id: newUser._id!,
       email: user.email,
       role: user.role,
       createdAt: user.createdAt,

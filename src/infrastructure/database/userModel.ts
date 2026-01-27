@@ -14,10 +14,6 @@ const userShchema = new mongoose.Schema<User>(
       type: Boolean,
       default: true,
     },
-    isSynced: {
-      type: Boolean,
-      default: false,
-    },
   },
   {
     timestamps: true,
