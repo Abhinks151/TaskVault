@@ -9,4 +9,6 @@ export interface IUserRepository {
     name: string,
     email: string,
   ): Promise<void | null>;
+
+  getAllUser(): Promise<User[] | null>;
 }

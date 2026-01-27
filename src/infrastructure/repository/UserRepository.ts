@@ -27,4 +27,9 @@ export class UserRepository implements IUserRepository {
   ): Promise<void | null> {
     return await Users.findOneAndUpdate({ _id: userId }, { name, email });
   }
+
+  async getAllUser(): Promise<User[] | null> {
+    return await Users.find({}).lean();
+  }
+
 }

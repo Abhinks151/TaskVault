@@ -19,6 +19,9 @@ import {
   enqueUserUpdated,
 } from "./infrastructure/queue/userSyncQueue.js";
 import { worker } from "./infrastructure/queue/worker.js";
+import { AdminUsecase } from "./application/usecases/admin/AdminUsecase.js";
+import { AdminController } from "./presentation/controllers/AdminController.js";
+import { adminRoute } from "./presentation/routes/adminRoutes.js";
 
 connect();
 // redisConnection.on("connect", () => console.log("Connected to Redis"));
@@ -55,17 +58,18 @@ const upadteUserDetailsUsecase = new UpdateUserDetailsUsecase(
 );
 const userController = new UserController(upadteUserDetailsUsecase);
 
+const adminUsecase = new AdminUsecase(userRepository);
+const adminController = new AdminController(adminUsecase);
+
 app.use("/", authRoute(authController));
 
-app.use("/users", authMiddleware(tokenService), userRoute(userController));
+app.use("/user", authMiddleware(tokenService), userRoute(userController));
 
-app.get(
+app.use(
   "/admin",
   authMiddleware(tokenService),
   authorizationMiddleware,
-  (req, res) => {
-    res.send("Admin page");
-  },
+  adminRoute(adminController),
 );
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));

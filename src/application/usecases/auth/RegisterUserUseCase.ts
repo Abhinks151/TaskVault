@@ -10,7 +10,7 @@ export class RegisterUserUseCase implements IRegisterUserUsecase {
     private passwordHasher: IPasswordService,
     private enqueueUserCreated: (payload: UserCreatedPayload) => Promise<void>,
   ) {
-    console.log("enqueueUserCreated in UC:", enqueueUserCreated);
+    console.log("queue working");
   }
 
   async execute(name: string, email: string, password: string): Promise<void> {
