@@ -1,4 +1,5 @@
 import express from "express";
+
 import type { IAdminController } from "../controllerInterface/IAdminController.js";
 
 export function adminRoute(authController: IAdminController) {

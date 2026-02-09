@@ -1,4 +1,5 @@
 import type { Request, Response } from "express";
+
 import type { IRegisterUserUsecase } from "../../application/interfaces/use-cases/IRegisterUserUsecase.js";
 import type { IAuthController } from "../controllerInterface/IAuthController.js";
 import type { ILoginUserUsecase } from "../../application/interfaces/use-cases/IloginUserusecase.js";

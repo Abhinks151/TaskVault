@@ -1,4 +1,5 @@
 import * as bcrypt from "bcrypt";
+
 import type { IPasswordService } from "../../application/interfaces/services/IPasswordService.js";
 
 export class BcryptPasswordHasher implements IPasswordService {

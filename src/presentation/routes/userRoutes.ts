@@ -1,4 +1,5 @@
 import express from "express";
+
 import type { IUserController } from "../controllerInterface/IUserController.js";
 
 export function userRoute(userController: IUserController) {

@@ -1,6 +1,7 @@
-import type { ITokenService } from "../../application/interfaces/use-cases/ITokenService.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+
+import type { ITokenService } from "../../application/interfaces/use-cases/ITokenService.js";
 
 dotenv.config();
 

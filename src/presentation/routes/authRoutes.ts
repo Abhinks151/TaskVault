@@ -1,4 +1,5 @@
 import express from "express";
+
 import type { IAuthController } from "../controllerInterface/IAuthController.js";
 
 export function authRoute(authController: IAuthController) {

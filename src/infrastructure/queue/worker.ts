@@ -1,6 +1,8 @@
 import { Worker } from "bullmq";
-import { redisConnection } from "./redisConnection.js";
+
 import { PostgresUserRepository } from "../postgres/PostgresUserRepository.js";
+
+import { redisConnection } from "./redisConnection.js";
 
 const postgresUserRepository = new PostgresUserRepository();
 

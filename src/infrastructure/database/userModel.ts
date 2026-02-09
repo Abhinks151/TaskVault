@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 import type { User } from "../../domain/entities/User.js";
 
 const userShchema = new mongoose.Schema<User>(

@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+
 import { authRoute } from "./presentation/routes/authRoutes.js";
 import { AuthController } from "./presentation/controllers/AuthController.js";
 import { RegisterUserUseCase } from "./application/usecases/auth/RegisterUserUseCase.js";

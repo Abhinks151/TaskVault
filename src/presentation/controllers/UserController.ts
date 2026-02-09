@@ -1,4 +1,5 @@
 import type { Request, Response } from "express";
+
 import type { IUpdateUserDetailsUsecase } from "../../application/interfaces/use-cases/IUpdateUserDetailsUsecase.js";
 import type { IUserController } from "../controllerInterface/IUserController.js";
 
@@ -18,7 +19,7 @@ export class UserController implements IUserController {
 
       res.status(200).json({ message: "User updated successfully", user });
     } catch (error) {
-      console.log("update user details failed");
+      console.log("update user details failed",error);
       res.status(500).json({ message: "Internal server error" });
     }
   }

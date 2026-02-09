@@ -31,5 +31,4 @@ export class UserRepository implements IUserRepository {
   async getAllUser(): Promise<User[] | null> {
     return await Users.find({}).lean();
   }
-
 }

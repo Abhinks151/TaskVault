@@ -1,4 +1,5 @@
 import type { UserCreatedPayload } from "../interface/userCreatedQueuePayload.js";
+
 import { prisma } from "./prisma.js";
 
 export class PostgresUserRepository {

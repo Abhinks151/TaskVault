@@ -1,4 +1,5 @@
 import type { Request, Response } from "express";
+
 import type { IAdminUsecase } from "../../application/interfaces/use-cases/IAdminUsecase.js";
 import type { IAdminController } from "../controllerInterface/IAdminController.js";
 
