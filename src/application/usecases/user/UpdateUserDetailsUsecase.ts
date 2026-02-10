@@ -3,9 +3,9 @@ import type { IUserRepository } from "../../interfaces/repositories/IUserReposit
 import type { IUpdateUserDetailsUsecase } from "../../interfaces/use-cases/IUpdateUserDetailsUsecase.js";
 
 export class UpdateUserDetailsUsecase implements IUpdateUserDetailsUsecase {
-  constructor(private userRepository: IUserRepository , 
+  constructor(
+    private userRepository: IUserRepository,
     private enqueueUserUpdated: (payload: UserCreatedPayload) => Promise<void>,
-
   ) {}
 
   async execute(userId: string, name: string, email: string): Promise<void> {
@@ -14,17 +14,24 @@ export class UpdateUserDetailsUsecase implements IUpdateUserDetailsUsecase {
         throw new Error("User id is required");
       }
 
-      await this.userRepository.updateUserDetails(userId, name, email);
-
-      this.enqueueUserUpdated({
-        id: userId,
+      const updatedUser = await this.userRepository.update(userId, {
+        name,
         email,
-        role: "USER",
-        createdAt: new Date(),
       });
 
+      if (!updatedUser) {
+        throw new Error("User not found");
+      }
+
+      await this.enqueueUserUpdated({
+        id: userId,
+        email: updatedUser.email,
+        role: updatedUser.role || "USER",
+        createdAt: updatedUser.createdAt || new Date(),
+      });
     } catch (error) {
       console.log(error);
+      throw error;
     }
   }
 }

@@ -10,25 +10,18 @@ export class UserRepository implements IUserRepository {
   }
 
   async create(user: User): Promise<User> {
-    return await Users.create({
-      name: user.name,
-      email: user.email,
-      password: user.password,
-      role: user.role,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
-    });
+    return await Users.create(user);
   }
 
-  async updateUserDetails(
-    userId: string,
-    name: string,
-    email: string,
-  ): Promise<void | null> {
-    return await Users.findOneAndUpdate({ _id: userId }, { name, email });
+  async update(id: string, data: Partial<User>): Promise<User | null> {
+    return await Users.findOneAndUpdate(
+      { _id: id },
+      { $set: data },
+      { new: true },
+    );
   }
 
-  async getAllUser(): Promise<User[] | null> {
+  async findAll(): Promise<User[] | null> {
     return await Users.find({}).lean();
   }
 }

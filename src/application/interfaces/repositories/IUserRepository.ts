@@ -1,14 +1,6 @@
 import type { User } from "../../../domain/entities/User.js";
+import type { IBaseRepository } from "./IBaseRepository.js";
 
-export interface IUserRepository {
+export interface IUserRepository extends IBaseRepository<User> {
   findByEmail(email: string): Promise<User | null>;
-  create(user: User): Promise<User>;
-
-  updateUserDetails(
-    userId: string,
-    name: string,
-    email: string,
-  ): Promise<void | null>;
-
-  getAllUser(): Promise<User[] | null>;
 }
