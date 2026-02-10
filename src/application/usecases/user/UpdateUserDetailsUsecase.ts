@@ -1,11 +1,11 @@
-import type { UserCreatedPayload } from "../../../infrastructure/interface/userCreatedQueuePayload.js";
 import type { IUserRepository } from "../../interfaces/repositories/IUserRepository.js";
+import type { IMessageService } from "../../interfaces/services/IMessageSerice.js";
 import type { IUpdateUserDetailsUsecase } from "../../interfaces/use-cases/IUpdateUserDetailsUsecase.js";
 
 export class UpdateUserDetailsUsecase implements IUpdateUserDetailsUsecase {
   constructor(
     private userRepository: IUserRepository,
-    private enqueueUserUpdated: (payload: UserCreatedPayload) => Promise<void>,
+    private messageService: IMessageService,
   ) {}
 
   async execute(userId: string, name: string, email: string): Promise<void> {
@@ -23,7 +23,14 @@ export class UpdateUserDetailsUsecase implements IUpdateUserDetailsUsecase {
         throw new Error("User not found");
       }
 
-      await this.enqueueUserUpdated({
+      // await this.enqueueUserUpdated({
+      //   id: userId,
+      //   email: updatedUser.email,
+      //   role: updatedUser.role || "USER",
+      //   createdAt: updatedUser.createdAt || new Date(),
+      // });
+
+      await this.messageService.publish("USER_UPDATED", {
         id: userId,
         email: updatedUser.email,
         role: updatedUser.role || "USER",

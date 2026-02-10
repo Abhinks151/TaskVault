@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
 import { authRoute } from "./presentation/routes/authRoutes.js";
 import { AuthController } from "./presentation/controllers/AuthController.js";
@@ -15,14 +16,18 @@ import { UserController } from "./presentation/controllers/UserController.js";
 import { UpdateUserDetailsUsecase } from "./application/usecases/user/UpdateUserDetailsUsecase.js";
 import { authorizationMiddleware } from "./presentation/middleware/authorizationMiddleware.js";
 // import { redisConnection } from "./infrastructure/queue/redisConnection.js";
-import {
-  enqueueUserCreated,
-  enqueUserUpdated,
-} from "./infrastructure/queue/userSyncQueue.js";
+// import {
+//   enqueueUserCreated,
+//   enqueUserUpdated,
+// } from "./infrastructure/queue/userSyncQueue.js";
+
+import { BullMQMessageService } from "./infrastructure/services/BullMQMessageService.js";
+
 import { worker } from "./infrastructure/queue/worker.js";
 import { AdminUsecase } from "./application/usecases/admin/AdminUsecase.js";
 import { AdminController } from "./presentation/controllers/AdminController.js";
 import { adminRoute } from "./presentation/routes/adminRoutes.js";
+import { RefreshTokenUsecase } from "./application/usecases/auth/RefreshTokenUsecase.js";
 
 connect();
 // redisConnection.on("connect", () => console.log("Connected to Redis"));
@@ -31,15 +36,17 @@ dotenv.config();
 const PORT = process.env.PORT || 3000;
 
 const app = express();
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const passwordHasher = new BcryptPasswordHasher();
 const userRepository = new UserRepository();
+const messageService = new BullMQMessageService();
 const registerUserUseCase = new RegisterUserUseCase(
   userRepository,
   passwordHasher,
-  enqueueUserCreated,
+  messageService,
 );
 
 const tokenService = new TockenService();
@@ -48,14 +55,20 @@ const loginUserUsecase = new LoginUserUsecase(
   passwordHasher,
   tokenService,
 );
+
+const refreshTokenUsecase = new RefreshTokenUsecase(
+  userRepository,
+  tokenService,
+);
 const authController = new AuthController(
   registerUserUseCase,
   loginUserUsecase,
+  refreshTokenUsecase,
 );
 
 const upadteUserDetailsUsecase = new UpdateUserDetailsUsecase(
   userRepository,
-  enqueUserUpdated,
+  messageService,
 );
 const userController = new UserController(upadteUserDetailsUsecase);
 

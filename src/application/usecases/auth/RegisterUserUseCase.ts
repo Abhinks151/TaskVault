@@ -2,13 +2,13 @@ import type { IPasswordService } from "../../interfaces/services/IPasswordServic
 import type { IRegisterUserUsecase } from "../../interfaces/use-cases/IRegisterUserUsecase.js";
 import type { User } from "../../../domain/entities/User.js";
 import type { IUserRepository } from "../../interfaces/repositories/IUserRepository.js";
-import type { UserCreatedPayload } from "../../../infrastructure/interface/userCreatedQueuePayload.js";
+import type { IMessageService } from "../../interfaces/services/IMessageSerice.js";
 
 export class RegisterUserUseCase implements IRegisterUserUsecase {
   constructor(
     private userRepository: IUserRepository,
     private passwordHasher: IPasswordService,
-    private enqueueUserCreated: (payload: UserCreatedPayload) => Promise<void>,
+    private messageService: IMessageService,
   ) {
     console.log("queue working");
   }
@@ -38,7 +38,14 @@ export class RegisterUserUseCase implements IRegisterUserUsecase {
     const newUser = await this.userRepository.create(user);
 
     //create new job(queue)
-    await this.enqueueUserCreated({
+    // await this.enqueueUserCreated({
+    //   id: newUser._id!,
+    //   email: user.email,
+    //   role: user.role,
+    //   createdAt: user.createdAt,
+    // });
+
+    await this.messageService.publish("USER_CREATED", {
       id: newUser._id!,
       email: user.email,
       role: user.role,

@@ -21,6 +21,10 @@ export class UserRepository implements IUserRepository {
     );
   }
 
+  async findById(id: string): Promise<User | null> {
+    return await Users.findOne({ _id: id });
+  }
+
   async findAll(): Promise<User[] | null> {
     return await Users.find({}).lean();
   }

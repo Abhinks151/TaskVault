@@ -19,7 +19,7 @@ export function authMiddleware(tokenService: ITokenService) {
     }
 
     try {
-      const user = tokenService.verifyToken(token);
+      const user = tokenService.verifyAccessToken(token);
 
       (req as any).user = {
         id: user.userId,

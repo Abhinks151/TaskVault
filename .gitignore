@@ -2,3 +2,4 @@
 .env
 /DualDataBase
 /src/generated/prisma
+sample.json

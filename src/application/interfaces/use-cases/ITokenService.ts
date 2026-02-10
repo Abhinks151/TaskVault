@@ -1,4 +1,6 @@
 export interface ITokenService {
-  generateToken(payload: { userId: string; role: string }): string;
-  verifyToken(token: string): { userId: string; role: string };
+  generateAccessToken(payload: { userId: string; role: string }): string;
+  generateRefreshToken(payload: { userId: string; role: string }): string;
+  verifyAccessToken(token: string): { userId: string; role: string };
+  verifyRefreshToken(token: string): { userId: string; role: string };
 }

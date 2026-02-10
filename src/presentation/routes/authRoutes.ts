@@ -11,6 +11,10 @@ export function authRoute(authController: IAuthController) {
   );
 
   authRouter.post("/login", authController.handleLogin.bind(authController));
+  authRouter.post(
+    "/refresh",
+    authController.handleRefresh.bind(authController),
+  );
 
   return authRouter;
 }
